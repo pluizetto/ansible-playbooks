@@ -1,0 +1,43 @@
+---
+- name: Deploy JBoss EAP
+  hosts: webservers
+  remote_user: root
+  vars_prompt:
+    - name: username
+      prompt: "Username:"
+      private: no
+    - name: password
+      prompt: "Password?"
+      private: yes
+    - name: zip_path
+      prompt: "JBoss Package Zip Path?"
+    - name: install_path
+      prompt: "Install path?"
+    - name: server_address
+      prompt: "Server Address?"
+  vars:
+    - java-opts: "JAVA_OPTS=$JAVA_OPTS -Djboss.bind.address={{ server_address }} -Djboss.bind.management.address={{ server_address }}" 
+
+  tasks:
+    - name: Registering and attaching subscriptions
+      redhat_subscription:
+        state: present
+        username: "{{ username }}"
+        password: "{{ password }}"
+        pool_ids: 
+          - 8a85f99c69d235390169ed7add29150a
+          - 8a85f99c69d235390169ed7a937314e9
+
+    - name: Installing Pre-requirements
+      yum:
+        - name: "{{ java-1.8.0-openjdk }}"
+          state: present
+          loop: 
+            - java-1.8.0-openjdk
+            - unzip
+    
+    - name: Unpacking Package
+      shell: "unzip {{ zip_path }} {{ install_path }}"
+
+    - name: Initial JBoss Config
+      shell: "echo {{ java_opts }} >> {{ install_path }}/bin/standalone.conf"
