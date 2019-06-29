@@ -11,8 +11,8 @@
     - name: Registering and attaching subscriptions
       redhat_subscription:
         state: present
-        username: "{{ username }}"
-        password: "{{ password }}"
+        username: "{{ redhat_username }}"
+        password: "{{ redhat_password }}"
         pool_ids: 
           - 8a85f99c69d235390169ed7add29150a
           - 8a85f99c69d235390169ed7a937314e9
