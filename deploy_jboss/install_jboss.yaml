@@ -1,13 +1,12 @@
 ---
 - name: Deploy JBoss EAP
   hosts: all 
-  remote_user: root
   vars:
     - java_opts: 'JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address={{ server_address }} -Djboss.bind.management.address={{ server_address }}"'
 
   tasks:
     - name: allow JBoss EAP ports
-      shell: "systemctl stop firewalld ; systemctl stop firewalld ; setenforce 0"
+      shell: "systemctl stop firewalld ; systemctl stop firewalld ; setenforce 0 ; susbcription-manager clean"
 
     - name: Registering and attaching subscriptions
       redhat_subscription:
