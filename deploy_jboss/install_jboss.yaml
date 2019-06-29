@@ -1,6 +1,6 @@
 ---
 - name: Deploy JBoss EAP
-  hosts: webservers
+  hosts: all 
   remote_user: root
   vars:
     - java_opts: 'JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address={{ server_address }} -Djboss.bind.management.address={{ server_address }}"'
@@ -19,7 +19,7 @@
           - 8a85f99c69d235390169ed7a937314e9
 
     - name: enable repos
-      shell: subscription-manager repos --enable={rhel-7-server-rpms,rhel-7-server-extras-rpms}}
+      shell: subscription-manager repos --enable={rhel-7-server-rpms,rhel-7-server-extras-rpms}
 
     - name: Installing Pre-requirements
       yum:
