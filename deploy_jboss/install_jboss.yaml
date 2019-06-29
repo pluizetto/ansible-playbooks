@@ -7,7 +7,7 @@
 
   tasks:
     - name: allow JBoss EAP ports
-      shell: systemctl stop firewalld ; systemctl stop firewalld ; setenforce 0"
+      shell: "systemctl stop firewalld ; systemctl stop firewalld ; setenforce 0"
 
     - name: Registering and attaching subscriptions
       redhat_subscription:
